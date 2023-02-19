@@ -5,11 +5,13 @@ services:
     image: postgres:${POSTGRES_VERSION:-15}-alpine
     container_name: db_docker_postgres
     restart: always
+    ports:
+      - '5432'
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-docker_env_try}
+      POSTGRES_DB: docker_env_try
       # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-Hisoka44}
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: postgrespw
+      POSTGRES_USER: postgres
     volumes:
       - database_data:/var/lib/postgresql/data:rw
     networks:
@@ -20,7 +22,7 @@ services:
     container_name: www_docker_env
     image: 'postgres:15'
     environment:
-      POSTGRES_PASSWORD: 'Hisoka44'
+      POSTGRES_PASSWORD: postgrespw
       POSTGRES_USER: postgres
       POSTGRES_DB: docker_env_try
     ports:
@@ -38,12 +40,14 @@ services:
     restart: always
     networks:
       - dev
+    depends_on:
+      - db
 
 networks:
   dev:
 
-volumes:
 ###> doctrine/doctrine-bundle ###
+volumes:
   database_data:
 
 ###< doctrine/doctrine-bundle ###

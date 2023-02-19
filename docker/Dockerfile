@@ -25,14 +25,11 @@ locales apt-utils git libicu-dev g++ libpng-dev libxml2-dev libzip-dev libonig-d
 \
 && /usr/local/bin/docker-php-ext-configure \
 intl\
-&& pecl install apcu && docker-php-ext-enable apcu \
-\
-&& sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.5/zsh-in-docker.sh)" -- \
--t robbyrussell
+&& pecl install apcu && docker-php-ext-enable apcu 
 
 RUN chmod +x /usr/local/bin/install-php-extensions && \
     install-php-extensions pdo_pgsql intl zip
-RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.5/zsh-in-docker.sh)"
+
 WORKDIR /var/www
 
 EXPOSE 80
